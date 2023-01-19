@@ -1,0 +1,24 @@
+#!/usr/bin/python3
+
+import argparse
+from pathlib import Path
+from player import play
+from recorder import record
+
+PATH = Path().home() / ".redo"
+PATH.mkdir(exist_ok=True)
+
+parser = argparse.ArgumentParser(prog="redo", description="Record and then play back the actions your recorded. Actions include mouse and keyboard interactions")
+parser.add_argument("--ignore-keyboard", action="store_true", help="Ignore keyboard actions")
+parser.add_argument("--ignore-mouse", action="store_true", help="Ignore mouse actions")
+parser.add_argument("--skip-time", action="store_true", help="Run actions back to back regardless of time gap between them")
+parser.add_argument("--record", "-r", action="store_true", help="Record actions")
+parser.add_argument("--time", "-t", type=int, help="Time to record for in seconds", default=5)
+parser.add_argument("macro", metavar="macro", help="Run a an existing macro that was already recorded")
+args = parser.parse_args()
+
+if args.record:
+    record(PATH / f"{args.macro}.redo", args.ignore_keyboard, args.ignore_mouse, args.time)
+else:
+    if Path.exists(PATH / f"{args.macro}.redo"):
+        play(PATH / f"{args.macro}.redo", args.skip_time, args.ignore_keyboard, args.ignore_mouse)
