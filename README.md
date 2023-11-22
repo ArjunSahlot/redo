@@ -1,2 +1,2 @@
 # redo
-Record and then play back the actions your recorded. Actions include mouse and keyboard interactions.
+Record and then play back the actions you recorded. Actions include mouse and keyboard interactions.
